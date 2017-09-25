@@ -3,13 +3,12 @@
 const WebSocket = require('ws');
 const http = require('http');
 const express = require('express');
-const serveIndex = require('serve-index');
 const app = express();
 
 const extensions = ["html", "css", "js", "ico"];
 
 app.use('/', express.static('static', { maxAge: 0, extensions: extensions }));
-app.use('/', serveIndex('static', {view: 'details'}));
+app.use('/', (req,res) => { res.sendFile(__dirname + '/static/wsclient.html'); });
 
 const server = http.createServer(app);
 
