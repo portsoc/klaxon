@@ -1,0 +1,9 @@
+<!doctype html>
+<title>star</title>
+
+<input id="data">
+
+<script>
+  const ws = new WebSocket('ws://' + window.location.hostname + ":" + window.location.port);
+  window.data.addEventListener('change', () => ws.send(window.data.value));
+</script>

@@ -1,0 +1,30 @@
+'use strict';
+
+const WebSocket = require('ws');
+const http = require('http');
+const express = require('express');
+const serveIndex = require('serve-index');
+const app = express();
+
+const extensions = ["html", "css", "js", "ico"];
+
+app.use('/', express.static('static', { maxAge: 0, extensions: extensions }));
+app.use('/', serveIndex('static', {view: 'details'}));
+
+const server = http.createServer(app);
+
+server.listen(process.env.PORT || 8080, (err) => console.log(err || 'ready'));
+
+function newClient (ws) {
+  ws.on('message', (data, flags) => {
+    for (let client of wss.clients) {
+      if (client != ws && client.readyState == WebSocket.OPEN) {
+        client.send(data);
+      }
+    }
+  });
+}
+
+
+const wss = new WebSocket.Server({server: server});
+wss.on('connection', newClient);
