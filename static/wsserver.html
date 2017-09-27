@@ -1,9 +1,15 @@
 <!doctype html>
 <title>star</title>
 
+<form>
 <input id="data">
+<input type="submit" id="button" value="send">
+</form>
 
 <script>
   const ws = new WebSocket('ws://' + window.location.hostname + ":" + window.location.port);
-  window.data.addEventListener('change', () => ws.send(window.data.value));
+  window.button.addEventListener('click', (e) => { 
+    ws.send(window.data.value);
+    e.preventDefault(); // don't actually submit the form
+  });
 </script>
